@@ -45,7 +45,7 @@ fi
 
 #Set some Variables
 NAME=`logname`
-PIPFILE="~/omniwallet/requirements.txt"
+PIPFILELOC="/home/$NAME/omniwallet"
 
 while [ -z "$PREFIG" ]; do
 	echo "Need an obelisk server? Try https://wiki.unsystem.net/index.php/Libbitcoin/Servers"
@@ -221,7 +221,7 @@ fi
 
 #Pip requirements
 #sudo pip install -r $SRC/pip.packages
-sudo pip install -r $PIPFILE
+sudo pip install -r $PIPFILELOC/requirements.txt
 
 #Get and setup nginx
 sudo apt-get -y install uwsgi uwsgi-plugin-python
