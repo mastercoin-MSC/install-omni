@@ -207,7 +207,7 @@ sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-co
 which sx
 SX_INSTALLED=$?
 
-if [[ SX_INSTALLED -eq 1 ]]; then
+if [[ $SX_INSTALLED -eq 1 ]]; then
         cd $SRC/res
         sudo bash install-sx.sh
 else
