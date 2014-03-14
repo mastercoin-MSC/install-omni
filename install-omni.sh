@@ -45,6 +45,7 @@ fi
 
 #Set some Variables
 NAME=`logname`
+PIPFILE="~/omniwallet/requirements.txt"
 
 while [ -z "$PREFIG" ]; do
 	echo "Need an obelisk server? Try https://wiki.unsystem.net/index.php/Libbitcoin/Servers"
@@ -132,18 +133,20 @@ echo "--------------------------------------------------------------------------
 echo ""
 echo "#############################"
 
+SSH="sudo -s -u $NAME ssh -o StrictHostKeyChecking=no -T -q git@github.com"
+
 VALID=1
 while [ $VALID -ne 0 ]; do
         echo "When You have updated Github please enter exactly:"
 	echo "		SSH Key Updated"
         read SSHREP
 	if [[ $SSHREP == "SSH Key Updated" ]]; then
-		sshout=`ssh -o StrictHostKeyChecking=no -T git@github.com`
-		if [[ $sshout == *successfully* ]]; then
+		sshout=`${SSH} 2>%1 /dev/null || echo $?`
+		if [[ $sshout -eq 1 ]]; then
+			echo "SSH Key Matched: Proceeding"
 			VALID=0
 		else
 			echo "Something didn't work, check your key and try again"
-			echo "Error message:" $string
 			SSHREP="Nope"
 		fi
 	fi
@@ -198,7 +201,8 @@ sudo chown -R $NAME:$NAME ~/tmp
 #install packages:
 sudo apt-get -y install python-simplejson python-git python-pip
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
-sudo pip install -r $SRC/pip.packages
+#sudo pip install -r $SRC/pip.packages
+sudo pip install -r $PIPFILE
 
 #check for sx and install it if it doesn't exist
 which sx
