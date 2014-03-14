@@ -204,8 +204,7 @@ sudo apt-get -y install python-simplejson python-git python-pip libffi-dev
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
 
 #check for sx and install it if it doesn't exist
-which sx
-SX_INSTALLED=$?
+SX_INSTALLED=`which sx || echo $?`
 
 if [[ $SX_INSTALLED -eq 1 ]]; then
         cd $SRC/res
