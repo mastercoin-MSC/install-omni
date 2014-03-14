@@ -3,4 +3,14 @@ install-omni
 
 Installer Script for Omniwallet.
 
-Underdevlopment
+Basic instructions:
+
+#If you don't have git, install it
+sudo apt-get install git 
+
+#Clone this repository
+git clone https://github.com/mastercoin-MSC/install-omni.git
+
+#cd into the install folder and start the installer with sudo
+cd install-omni
+sudo bash install-omni.sh
