@@ -2,8 +2,6 @@
 #Outside Requirements: Existing Obelisk Server
 #Instructions are for Ubuntu 13.04 and newer
 
-#get the current directory
-
 set -e
 echo
 echo "Omni wallet Installation Script"
@@ -265,11 +263,17 @@ echo ""
 echo "The webinterface is handled by nginx"
 echo "'sudo service nginx [stop/start/restart/status]'"
 echo ""
-echo "There is a wrapper app which automates the tasks of downloading and parsing Mastercoin Data off the Blockchain"
+echo "There is a wrapper app.sh which automates the tasks of downloading and parsing Mastercoin Data off the Blockchain"
 echo ""
-echo "-----Run Commands-------"
-echo "start a new screen session with: screen -S omni"
+echo ""
+echo "----------------Run Commands------------------"
+echo "Start a new screen session with: screen -S omni"
 echo "cd "$PWD
+echo "Set an environment variable containing a secret passphrase - this is used to generate salts for indivdual"
+echo "user IDs, and it needs to be both secret AND not change."
+echo ""
+echo "  export OMNIWALLET_SECRET=\"DontTellAnyoneThis\""
+echo ""
 echo "launch the wrapper:  ./app.sh"
 echo "Note: Do NOT launch it with sudo"
 echo "You can disconnect from the screen session with '<ctrl-a> d'"
