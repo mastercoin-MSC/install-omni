@@ -141,7 +141,7 @@ while [ $VALID -ne 0 ]; do
 	echo "		SSH Key Updated"
         read SSHREP
 	if [[ $SSHREP == "SSH Key Updated" ]]; then
-		sshout=`${SSH} 2>%1 /dev/null || echo $?`
+		sshout=`${SSH} > /dev/null 2>&1 || echo $?`
 		if [[ $sshout -eq 1 ]]; then
 			echo "SSH Key Matched: Proceeding"
 			VALID=0
@@ -151,6 +151,9 @@ while [ $VALID -ne 0 ]; do
 		fi
 	fi
 done
+
+#Just in case the repo exists, remove it before installing npm (dependency issues)
+#sudo add-apt-repository --remove -y ppa:chris-lea/node.js
 
 # Make sure we're getting the newest packages.
 sudo apt-get update
@@ -199,10 +202,8 @@ sudo chown -R $NAME:$NAME ~/.npm
 sudo chown -R $NAME:$NAME ~/tmp
 
 #install packages:
-sudo apt-get -y install python-simplejson python-git python-pip
+sudo apt-get -y install python-simplejson python-git python-pip libffi-dev
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
-#sudo pip install -r $SRC/pip.packages
-sudo pip install -r $PIPFILE
 
 #check for sx and install it if it doesn't exist
 which sx
@@ -217,6 +218,10 @@ else
 	echo "#########################################"
 
 fi
+
+#Pip requirements
+#sudo pip install -r $SRC/pip.packages
+sudo pip install -r $PIPFILE
 
 #Get and setup nginx
 sudo apt-get -y install uwsgi uwsgi-plugin-python
