@@ -43,6 +43,8 @@ else
     exit
 fi
 
+#Set some Variables
+NAME=`logname`
 
 while [ -z "$PREFIG" ]; do
 	echo "Need an obelisk server? Try https://wiki.unsystem.net/index.php/Libbitcoin/Servers"
@@ -110,7 +112,7 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 
         y* | Y* )
 		echo "Generating ~/.ssh/id_rsa:"
-		`echo n | ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""`
+		echo n | sudo -u $NAME ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""
         ;;
 	*)
                 echo "Slipping new ssh key generation"
@@ -184,7 +186,6 @@ sudo apt-get -y install nodejs
 cd
 git clone https://github.com/mastercoin-MSC/omniwallet.git
 
-NAME=`logname`
 # May need to clean up some strange permissions from the npm install.
 sudo chown -R $NAME:$NAME ~/.npm
 sudo chown -R $NAME:$NAME ~/tmp
