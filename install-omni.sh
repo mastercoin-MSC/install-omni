@@ -138,7 +138,14 @@ while [ $VALID -ne 0 ]; do
 	echo "		SSH Key Updated"
         read SSHREP
 	if [[ $SSHREP == "SSH Key Updated" ]]; then
-		VALID=0
+		sshout=`ssh -o StrictHostKeyChecking=no -T git@github.com`
+		if [[ $string == *successfully* ]]; then
+			VALID=0
+		else
+			echo "Something didn't work, check your key and try again"
+			echo "Error message:" $string
+			SSHREP="Nope"
+		fi
 	fi
 done
 
@@ -225,7 +232,8 @@ sudo cp ~/omniwallet/etc/nginx/sites-available/default /etc/nginx/sites-availabl
 sudo npm install -g uglify-js
 
 #Start the omniwallet dependency setup
-# MAKE SURE SSH IS LINKED TO GITHUB 
+# MAKE SURE SSH IS LINKED TO GITHUB
+sudo chown -R $NAME:$NAME ~/omniwallet
 cd ~/omniwallet
 npm install
 
@@ -252,7 +260,7 @@ echo "There is a wrapper app which automates the tasks of downloading and parsin
 echo ""
 echo "-----Run Commands-------"
 echo "start a new screen session with: screen -S omni"
-echo "cd "$SRC"/omniwallet"
+echo "cd "$PWD
 echo "launch the wrapper:  ./app.sh"
 echo "Note: Do NOT launch it with sudo"
 echo "You can disconnect from the screen session with '<ctrl-a> d'"
