@@ -176,7 +176,7 @@ sudo apt-get update
 sudo apt-get -y install python-software-properties python
 
 #Special node.js installation from chris-lea repository
-sudo add-apt-repository ppa:chris-lea/node.js
+sudo add-apt-repository -y ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get -y install nodejs
 
@@ -200,7 +200,7 @@ sudo bash install-sx.sh
 sudo apt-get -y install uwsgi uwsgi-plugin-python
 sudo -s
 nginx=stable # use nginx=development for latest development version
-add-apt-repository ppa:nginx/$nginx
+add-apt-repository -y ppa:nginx/$nginx
 apt-get update
 apt-get -y install nginx
 exit
