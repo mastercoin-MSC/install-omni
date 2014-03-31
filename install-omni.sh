@@ -209,12 +209,13 @@ fi
 
 #Get and setup nginx
 sudo apt-get -y install uwsgi uwsgi-plugin-python
-sudo -s
-nginx=stable # use nginx=development for latest development version
-add-apt-repository -y ppa:nginx/$nginx
+#sudo -s
+#nginx=stable # use nginx=development for latest development version
+#add-apt-repository -y ppa:nginx/$nginx
+add-apt-repository -y ppa:nginx/stable
 apt-get update
 apt-get -y install nginx
-exit
+#exit
 
 sed -i "s/cmlacy/$NAME/g" ~/omniwallet/etc/nginx/sites-available/default
 
