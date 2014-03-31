@@ -45,8 +45,9 @@ fi
 
 
 while [ -z "$PREFIG" ]; do
-	echo "Do you have an obelisk server and wish to enter its details now? [y/n]"
 	echo "Need an obelisk server? Try https://wiki.unsystem.net/index.php/Libbitcoin/Servers"
+	echo ""
+	echo "Do you have an obelisk server and wish to enter its details now? [y/n]"
 	read PREFIG
 done
 
@@ -109,7 +110,7 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 
         y* | Y* )
 		echo "Generating ~/.ssh/id_rsa:"
-		echo n | ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""
+		`echo n | ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""`
         ;;
 	*)
                 echo "Slipping new ssh key generation"
