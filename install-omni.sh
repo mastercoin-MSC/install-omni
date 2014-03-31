@@ -200,6 +200,11 @@ SX_INSTALLED=$?
 if [[ SX_INSTALLED -eq 1 ]]; then
         cd $SRC/res
         sudo bash install-sx.sh
+else
+	echo "#########################################"
+	echo "sx alredy installed Skipping installation"
+	echo "#########################################"
+
 fi
 
 #Get and setup nginx
