@@ -191,7 +191,7 @@ sudo chown -R $NAME:$NAME ~/tmp
 #install packages:
 sudo apt-get -y install python-simplejson python-git python-pip
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
-sudo pip install -r pip.packages
+sudo pip install -r $SRC/pip.packages
 
 cd $SRC/res
 sudo bash install-sx.sh
