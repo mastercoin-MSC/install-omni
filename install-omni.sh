@@ -189,7 +189,7 @@ sudo apt-get -y install nodejs
 
 #Get/clone Omniwallet - might be relevant
 cd
-git clone https://github.com/mastercoin-MSC/omniwallet.git
+sudo -u $NAME git clone https://github.com/mastercoin-MSC/omniwallet.git
 
 # May need to clean up some strange permissions from the npm install.
 sudo chown -R $NAME:$NAME ~/.npm
@@ -235,7 +235,7 @@ sudo npm install -g uglify-js
 # MAKE SURE SSH IS LINKED TO GITHUB
 sudo chown -R $NAME:$NAME ~/omniwallet
 cd ~/omniwallet
-npm install
+sudo -u $NAME npm install
 
 #Create omniwallet data directory
 sudo mkdir /var/lib/omniwallet
