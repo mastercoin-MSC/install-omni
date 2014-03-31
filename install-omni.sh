@@ -139,7 +139,7 @@ while [ $VALID -ne 0 ]; do
         read SSHREP
 	if [[ $SSHREP == "SSH Key Updated" ]]; then
 		sshout=`ssh -o StrictHostKeyChecking=no -T git@github.com`
-		if [[ $string == *successfully* ]]; then
+		if [[ $sshout == *successfully* ]]; then
 			VALID=0
 		else
 			echo "Something didn't work, check your key and try again"
