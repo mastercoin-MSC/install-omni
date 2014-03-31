@@ -193,8 +193,14 @@ sudo apt-get -y install python-simplejson python-git python-pip
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
 sudo pip install -r $SRC/pip.packages
 
-cd $SRC/res
-sudo bash install-sx.sh
+#check for sx and install it if it doesn't exist
+which sx
+SX_INSTALLED=$?
+
+if [[ SX_INSTALLED -eq 1 ]]; then
+        cd $SRC/res
+        sudo bash install-sx.sh
+fi
 
 #Get and setup nginx
 sudo apt-get -y install uwsgi uwsgi-plugin-python
