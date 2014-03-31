@@ -142,8 +142,6 @@ while [ $VALID -ne 0 ]; do
 	fi
 done
 
-exit
-
 # Make sure we're getting the newest packages.
 sudo apt-get update
 
