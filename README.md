@@ -1,4 +1,6 @@
 install-omni
 ============
 
-Installer Script for Omniwallet
+Installer Script for Omniwallet.
+
+Underdevlopment
