@@ -150,9 +150,6 @@ while [ $VALID -ne 0 ]; do
 	fi
 done
 
-#Just in case the repo exists, remove it before installing npm (dependency issues)
-#sudo add-apt-repository --remove -y ppa:chris-lea/node.js
-
 # Make sure we're getting the newest packages.
 sudo apt-get update
 
