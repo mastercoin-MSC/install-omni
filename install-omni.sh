@@ -240,8 +240,16 @@ sudo chown -R $NAME:$NAME ~/omniwallet
 cd ~/omniwallet
 sudo -u $NAME npm install
 
-#Create omniwallet data directory
+#Create omniwallet data directory and bootstrap
 sudo mkdir /var/lib/omniwallet
+cd $SRC
+wget https://masterchain.info/downloads/ -O list
+latest=`cat list | grep tar.gz | sed -e "s/^.*\"\(.*\)\".*$/\1/" | sort -n -r | head -1`
+wget https://masterchain.info/downloads/$latest -O latest.tar.gz
+rm list
+tar xzf latest.tar.gz -C /var/lib/omniwallet
+cp -r /var/lib/mastercoin-tools/www/* /var/lib/mastercoin-tools/
+rm /var/lib/mastercoin-tools/revision.json
 sudo chown -R $NAME:$NAME /var/lib/omniwallet
 
 #start the web interface
