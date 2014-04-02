@@ -2,7 +2,7 @@
 #Outside Requirements: Existing Obelisk Server
 #Instructions are for Ubuntu 13.04 and newer
 
-set -e
+#set -e
 echo
 echo "Omni wallet Installation Script"
 echo
@@ -201,7 +201,9 @@ sudo apt-get -y install python-simplejson python-git python-pip libffi-dev
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
 
 #check for sx and install it if it doesn't exist
-SX_INSTALLED=`which sx || echo $?`
+#SX_INSTALLED=`which sx || echo $?`
+which sx
+SX_INSTALLED=$?
 
 if [[ $SX_INSTALLED -eq 1 ]]; then
         cd $SRC/res
