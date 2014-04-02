@@ -251,7 +251,7 @@ wget https://masterchain.info/downloads/$latest -O latest.tar.gz
 rm list
 tar xzf latest.tar.gz -C /var/lib/omniwallet
 cp -r /var/lib/omniwallet/www/* /var/lib/omniwallet/
-rm /var/lib/mastercoin-tools/revision.json
+rm /var/lib/omniwallet/revision.json
 sudo chown -R $NAME:$NAME /var/lib/omniwallet
 
 #start the web interface
