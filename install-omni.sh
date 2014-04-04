@@ -2,9 +2,7 @@
 #Outside Requirements: Existing Obelisk Server
 #Instructions are for Ubuntu 13.04 and newer
 
-#get the current directory
-
-set -e
+#set -e
 echo
 echo "Omni wallet Installation Script"
 echo
@@ -45,6 +43,7 @@ fi
 
 #Set some Variables
 NAME=`logname`
+PIPFILELOC="/home/$NAME/omniwallet"
 
 while [ -z "$PREFIG" ]; do
 	echo "Need an obelisk server? Try https://wiki.unsystem.net/index.php/Libbitcoin/Servers"
@@ -132,18 +131,20 @@ echo "--------------------------------------------------------------------------
 echo ""
 echo "#############################"
 
+SSH="sudo -s -u $NAME ssh -o StrictHostKeyChecking=no -T -q git@github.com"
+
 VALID=1
 while [ $VALID -ne 0 ]; do
         echo "When You have updated Github please enter exactly:"
 	echo "		SSH Key Updated"
         read SSHREP
 	if [[ $SSHREP == "SSH Key Updated" ]]; then
-		sshout=`ssh -o StrictHostKeyChecking=no -T git@github.com`
-		if [[ $sshout == *successfully* ]]; then
+		sshout=`${SSH} > /dev/null 2>&1 || echo $?`
+		if [[ $sshout -eq 1 ]]; then
+			echo "SSH Key Matched: Proceeding"
 			VALID=0
 		else
 			echo "Something didn't work, check your key and try again"
-			echo "Error message:" $string
 			SSHREP="Nope"
 		fi
 	fi
@@ -196,15 +197,15 @@ sudo chown -R $NAME:$NAME ~/.npm
 sudo chown -R $NAME:$NAME ~/tmp
 
 #install packages:
-sudo apt-get -y install python-simplejson python-git python-pip
+sudo apt-get -y install python-simplejson python-git python-pip libffi-dev
 sudo apt-get -y install build-essential autoconf libtool libboost-all-dev pkg-config libcurl4-openssl-dev libleveldb-dev libzmq-dev libconfig++-dev libncurses5-dev
-sudo pip install -r $SRC/pip.packages
 
 #check for sx and install it if it doesn't exist
+#SX_INSTALLED=`which sx || echo $?`
 which sx
 SX_INSTALLED=$?
 
-if [[ SX_INSTALLED -eq 1 ]]; then
+if [[ $SX_INSTALLED -eq 1 ]]; then
         cd $SRC/res
         sudo bash install-sx.sh
 else
@@ -213,6 +214,10 @@ else
 	echo "#########################################"
 
 fi
+
+#Pip requirements
+#sudo pip install -r $SRC/pip.packages
+sudo pip install -r $PIPFILELOC/requirements.txt
 
 #Get and setup nginx
 sudo apt-get -y install uwsgi uwsgi-plugin-python
@@ -237,8 +242,16 @@ sudo chown -R $NAME:$NAME ~/omniwallet
 cd ~/omniwallet
 sudo -u $NAME npm install
 
-#Create omniwallet data directory
+#Create omniwallet data directory and bootstrap
 sudo mkdir /var/lib/omniwallet
+cd $SRC
+wget https://masterchain.info/downloads/ -O list
+latest=`cat list | grep tar.gz | sed -e "s/^.*\"\(.*\)\".*$/\1/" | sort -n -r | head -1`
+wget https://masterchain.info/downloads/$latest -O latest.tar.gz
+rm list
+tar xzf latest.tar.gz -C /var/lib/omniwallet
+cp -r /var/lib/omniwallet/www/* /var/lib/omniwallet/
+rm /var/lib/omniwallet/revision.json
 sudo chown -R $NAME:$NAME /var/lib/omniwallet
 
 #start the web interface
@@ -256,11 +269,17 @@ echo ""
 echo "The webinterface is handled by nginx"
 echo "'sudo service nginx [stop/start/restart/status]'"
 echo ""
-echo "There is a wrapper app which automates the tasks of downloading and parsing Mastercoin Data off the Blockchain"
+echo "There is a wrapper app.sh which automates the tasks of downloading and parsing Mastercoin Data off the Blockchain"
 echo ""
-echo "-----Run Commands-------"
-echo "start a new screen session with: screen -S omni"
+echo ""
+echo "----------------Run Commands------------------"
+echo "Start a new screen session with: screen -S omni"
 echo "cd "$PWD
+echo "Set an environment variable containing a secret passphrase - this is used to generate salts for indivdual"
+echo "user IDs, and it needs to be both secret AND not change."
+echo ""
+echo "  export OMNIWALLET_SECRET=\"DontTellAnyoneThis\""
+echo ""
 echo "launch the wrapper:  ./app.sh"
 echo "Note: Do NOT launch it with sudo"
 echo "You can disconnect from the screen session with '<ctrl-a> d'"
