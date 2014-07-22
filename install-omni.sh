@@ -229,7 +229,7 @@ sudo apt-get update
 sudo apt-get -y install nginx
 #exit
 
-sed -i "s/cmlacy/$NAME/g" ~/omniwallet/etc/nginx/sites-available/default
+sed -i "s/myUser/$NAME/g" ~/omniwallet/etc/nginx/sites-available/default
 
 #Update nginx conf with omniwallet specifics
 sudo cp ~/omniwallet/etc/nginx/sites-available/default /etc/nginx/sites-available
@@ -245,21 +245,14 @@ sudo -u $NAME npm install
 #Create omniwallet data directory and bootstrap
 sudo mkdir /var/lib/omniwallet
 cd $SRC
-wget https://masterchain.info/downloads/ -O list
-latest=`cat list | grep tar.gz | sed -e "s/^.*\"\(.*\)\".*$/\1/" | sort -n -r | head -1`
-wget https://masterchain.info/downloads/$latest -O latest.tar.gz
-rm list
-tar xzf latest.tar.gz -C /var/lib/omniwallet
+wget https://www.omniwallet.org/assets/snapshots/current.tar.gz
+tar xzf current.tar.gz -C /var/lib/omniwallet
 cp -r /var/lib/omniwallet/www/* /var/lib/omniwallet/
 rm /var/lib/omniwallet/revision.json
 sudo chown -R $NAME:$NAME /var/lib/omniwallet
 
 #start the web interface
 sudo service nginx start
-
-#create the mastercoin tools data directory
-#mkdir -p /var/lib/mastercoin-tools
-#tar xzf $SRC/res/bootstrap.tgz -C /var/lib/mastercoin-tools
 
 echo ""
 echo ""
